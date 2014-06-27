@@ -1,0 +1,93 @@
+#parse("common/header.vm")
+#parse("common/notice.vm")
+
+<!-- 带推送商品列表 -->
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    #parse("common/menu.vm")
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                推送历史
+                <small>已推送到移动端的商品记录</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">推送历史</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- top row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- The time line -->
+                    <ul class="timeline">
+                        <!-- timeline time label -->
+                        #set($cursor =0)
+                        #foreach($push in $!history)
+                            <li class="time-label">
+                                #if($cursor == 0)
+                                    <span class="bg-red">
+                                        $!dateFormat.format($!push.get(0).getPushTime())
+                                    </span>
+                                #else
+                                    <span class="bg-green">
+                                        $!dateFormat.format($!push.get(0).getPushTime())
+                                    </span>
+                                #end
+                            </li>
+                            <li>
+                                <i class="fa fa-camera"></i>
+
+                                <div class="timeline-item">
+                            <span class="time"><i
+                                    class="fa fa-clock-o"></i>$!timeFormat.format($!push.get(0).getPushTime())</span>
+
+                                    <h3 class="timeline-header">
+                                        #if($!push.get(0).getCategoryId() == 1)
+                                            分类：最新
+                                        #elseif($!push.get(0).getCategoryId() == 2)
+                                            分类：精选
+                                        #elseif($!push.get(0).getCategoryId() == 3)
+                                            分类：潮流
+                                        #else
+                                            &nbsp;
+                                        #end
+                                    </h3>
+
+                                    <div class="timeline-body">
+                                        #foreach($item in $push)
+                                            <a href="http://item.taobao.com/item.htm?id=$item.getItemId()"
+                                               target="_blank"><img
+                                                    src="$item.getPicUrl()_110x110.jpg" class="margin"></a>
+                                        #end
+                                    </div>
+                                </div>
+                            </li>
+                            #set($cursor = 1)
+                        #end
+                        <!-- END timeline item -->
+                        <li>
+                            <i class="fa fa-clock-o"></i>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- /.row -->
+
+        </section>
+        <!-- /.content -->
+    </aside>
+    <!-- /.right-side -->
+</div><!-- ./wrapper -->
+<script type="application/javascript">
+    document.getElementById("push-history").setAttribute("class", "active");
+</script>
+#parse("common/footer.vm")
+

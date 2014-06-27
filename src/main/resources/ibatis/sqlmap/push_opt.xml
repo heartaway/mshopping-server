@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="com.taobao.mshopping.demo.model.PushOptDO">
+    <typeAlias alias="pushOptDO" type="com.taobao.mshopping.demo.model.PushOptDO"/>
+    <resultMap id="pushOptDO.rm" class="pushOptDO">
+        <result column="id" property="id"/>
+        <result column="push_time" property="pushTime"/>
+        <result column="item_count" property="itemCount"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!-- selector -->
+    <sql id="pushOptDO.selector">
+		SELECT
+		id, push_time,item_count,gmt_create, gmt_modified
+		FROM push_opt
+    </sql>
+    <!-- END selector -->
+
+    <!-- counter -->
+    <sql id="pushOptDO.counter">
+		SELECT COUNT(*) FROM push_opt
+    </sql>
+    <!-- END counter -->
+
+    <sql id="count">
+        SELECT COUNT(*) FROM push_opt
+    </sql>
+
+    <!-- 条件片段 -->
+    <sql id="pushOptDO.get_segment">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="AND" property="id">
+                id = #id#
+            </isNotNull>
+            <isNotNull prepend="AND" property="pushTime">
+                push_time = #pushTime#
+            </isNotNull>
+
+            <isNotNull prepend="AND" property="itemCount">
+                item_count = #itemCount#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!-- INSERT -->
+    <insert id="create" parameterClass="pushOptDO">
+        INSERT INTO push_opt(push_time, item_count, gmt_create, gmt_modified)
+        VALUES(#pushTime#, #itemCount#, now(), now())
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+    <!-- ENE INSERT -->
+
+    <!--更新 -->
+    <update id="update" parameterClass="pushOptDO">
+        UPDATE push_opt
+        set gmt_modified = now()
+        <dynamic>
+            <isNotNull prepend="," property="pushTime">
+                push_time = #pushTime#
+            </isNotNull>
+            <isNotNull prepend="," property="itemCount">
+                item_count = #itemCount#
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+    <!-- GET -->
+    <select id="load" resultMap="pushOptDO.rm">
+        <include refid="pushOptDO.selector"/>
+        WHERE id = #id#
+    </select>
+
+    <select id="find" parameterClass="pushOptDO" resultMap="pushOptDO.rm">
+        <include refid="pushOptDO.selector"/>
+        <include refid="pushOptDO.get_segment"/>
+    </select>
+
+    <select id="findAllOrderByTimeDesc" parameterClass="pushOptDO" resultMap="pushOptDO.rm">
+        <include refid="pushOptDO.selector"/>
+        ORDER BY id DESC
+    </select>
+    <!-- END GET -->
+
+    <!-- END 分页筛选 -->
+
+    <!-- 删除 -->
+    <delete id="delete" parameterClass="int">
+    	delete from push_opt  where id = #id#
+    </delete>
+    <delete id="deleteByParam" parameterClass="pushOptDO">
+        delete from push_opt
+        <include refid="pushOptDO.get_segment"/>
+    </delete>
+    <!-- END 删除 -->
+
+    <!-- 分页筛选 -->
+    <select id="page_count" resultClass="Integer">
+        <include refid="pushOptDO.counter"/>
+        <include refid="pushOptDO.get_segment"/>
+    </select>
+
+    <select id="page" resultClass="Integer" resultMap="pushOptDO.rm">
+        <include refid="pushOptDO.selector"/>
+        <include refid="pushOptDO.get_segment"/>
+        LIMIT #query_page_index#, #query_page_size#;
+    </select>
+    <!-- END 分页筛选 -->
+</sqlMap>
+

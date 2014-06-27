@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="com.taobao.mshopping.demo.model.PushBufferDO">
+    <typeAlias alias="pushBufferDO" type="com.taobao.mshopping.demo.model.PushBufferDO"/>
+    <resultMap id="pushBufferDO.rm" class="pushBufferDO">
+        <result column="id" property="id"/>
+        <result column="item_id" property="itemId"/>
+        <result column="item_house_id" property="itemHouseId"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="price" property="price"/>
+        <result column="title" property="title"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!-- selector -->
+    <sql id="pushBufferDO.selector">
+		SELECT
+		id, item_id,item_house_id, pic_url,price,title,gmt_create, gmt_modified
+		FROM push_buffer
+    </sql>
+    <!-- END selector -->
+
+    <!-- counter -->
+    <sql id="pushBufferDO.counter">
+		SELECT COUNT(*) FROM push_buffer
+    </sql>
+    <!-- END counter -->
+
+    <sql id="count">
+        SELECT COUNT(*) FROM push_buffer
+    </sql>
+
+    <!-- 条件片段 -->
+    <sql id="pushBufferDO.get_segment">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="AND" property="id">
+                id = #id#
+            </isNotNull>
+            <isNotNull prepend="AND" property="itemId">
+                item_id = #itemId#
+            </isNotNull>
+
+            <isNotNull prepend="AND" property="itemHouseId">
+                item_house_id = #itemHouseId#
+            </isNotNull>
+            <isNotNull prepend="AND" property="picUrl">
+                pic_url = #picUrl#
+            </isNotNull>
+            <isNotNull prepend="AND" property="price">
+                price = #price#
+            </isNotNull>
+            <isNotNull prepend="AND" property="title">
+                title = #title#
+            </isNotNull>
+
+        </dynamic>
+    </sql>
+
+    <!-- INSERT -->
+    <insert id="create" parameterClass="pushBufferDO">
+        INSERT INTO push_buffer(
+        item_id, item_house_id ,pic_url, price, title,gmt_create, gmt_modified)
+        VALUES(
+        #itemId#, #itemHouseId#, #picUrl#,#price#,#title#,now(), now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+    <!-- ENE INSERT -->
+
+    <!--更新 -->
+    <update id="update" parameterClass="pushBufferDO">
+        UPDATE push_buffer
+        set gmt_modified = now()
+        <dynamic>
+            <isNotNull prepend="," property="itemId">
+                item_id = #itemId#
+            </isNotNull>
+            <isNotNull prepend="," property="itemHouseId">
+                item_house_id = #itemHouseId#
+            </isNotNull>
+            <isNotNull prepend="," property="picUrl">
+                pic_url = #picUrl#
+            </isNotNull>
+            <isNotNull prepend="," property="price">
+                price = #price#
+            </isNotNull>
+            <isNotNull prepend="," property="title">
+                title = #title#
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+    <!-- GET -->
+    <select id="load" resultMap="pushBufferDO.rm">
+        <include refid="pushBufferDO.selector"/>
+        WHERE id = #id#
+    </select>
+
+    <select id="find" parameterClass="pushBufferDO" resultMap="pushBufferDO.rm">
+        <include refid="pushBufferDO.selector"/>
+        <include refid="pushBufferDO.get_segment"/>
+    </select>
+    <!-- END GET -->
+
+    <!-- END 分页筛选 -->
+
+    <!-- 删除 -->
+    <delete id="delete" parameterClass="long">
+    	delete from push_buffer  where id = #id#
+    </delete>
+    <delete id="deleteByParam" parameterClass="pushBufferDO">
+        delete from push_buffer
+        <include refid="pushBufferDO.get_segment"/>
+    </delete>
+    <!-- END 删除 -->
+
+    <!-- 分页筛选 -->
+    <select id="page_count" resultClass="Integer">
+        <include refid="pushBufferDO.counter"/>
+        <include refid="pushBufferDO.get_segment"/>
+    </select>
+
+    <select id="page" resultClass="Integer" resultMap="pushBufferDO.rm">
+        <include refid="pushBufferDO.selector"/>
+        <include refid="pushBufferDO.get_segment"/>
+        LIMIT #query_page_index#, #query_page_size#;
+    </select>
+    <!-- END 分页筛选 -->
+</sqlMap>
+

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="gb2312" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="com.taobao.mshopping.demo.model.ItemHouseDO">
+    <typeAlias alias="itemHouseDO" type="com.taobao.mshopping.demo.model.ItemHouseDO"/>
+    <resultMap id="itemHouseDO.rm" class="itemHouseDO">
+        <result column="id" property="id"/>
+        <result column="item_id" property="itemId"/>
+        <result column="title" property="title"/>
+        <result column="price" property="price"/>
+        <result column="pic" property="pic"/>
+        <result column="is_push" property="isPush"/>
+        <result column="push_time" property="pushTime"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!-- selector -->
+    <sql id="itemHouseDO.selector">
+		SELECT
+		id, item_id, title, price, pic, is_push, push_time, gmt_create, gmt_modified
+		FROM item_house
+    </sql>
+    <!-- END selector -->
+
+    <!-- counter -->
+    <sql id="itemHouseDO.counter">
+		SELECT COUNT(*) FROM item_house
+    </sql>
+    <!-- END counter -->
+
+    <sql id="count">
+        SELECT COUNT(*) FROM item_house
+    </sql>
+
+    <!-- 条件片段 -->
+    <sql id="itemHouseDO.get_segment">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="AND" property="id">
+                id = #id#
+            </isNotNull>
+            <isNotNull prepend="AND" property="itemId">
+                item_id = #itemId#
+            </isNotNull>
+            <isNotNull prepend="AND" property="title">
+                title like CONCAT(#title#,'%')
+            </isNotNull>
+            <isNotNull prepend="AND" property="price">
+                price = #price#
+            </isNotNull>
+            <isNotNull prepend="AND" property="pic">
+                pic = #pic#
+            </isNotNull>
+            <isNotNull prepend="AND" property="isPush">
+                is_push = #isPush#
+            </isNotNull>
+            <isNotNull prepend="AND" property="pushTime">
+                push_time = #pushTime#
+            </isNotNull>
+            <isNull prepend="AND" property="id">
+                is_delete = 0
+            </isNull>
+            <isNotNull prepend="AND" property="id">
+                is_delete = 0
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!-- INSERT -->
+    <insert id="create" parameterClass="itemHouseDO">
+        INSERT INTO item_house(
+        item_id, title, price, pic, is_push, push_time,is_delete, gmt_create, gmt_modified)
+        VALUES(
+        #itemId#, #title#, #price#, #pic#, #isPush#, #pushTime#,0, now(), now())
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+    <!-- ENE INSERT -->
+
+    <!--更新 -->
+    <update id="update" parameterClass="itemHouseDO">
+        UPDATE item_house
+        set gmt_modified = now()
+        <dynamic>
+            <isNotNull prepend="," property="itemId">
+                item_id = #itemId#
+            </isNotNull>
+            <isNotNull prepend="," property="title">
+                title = #title#
+            </isNotNull>
+            <isNotNull prepend="," property="price">
+                price = #price#
+            </isNotNull>
+            <isNotNull prepend="," property="pic">
+                pic = #pic#
+            </isNotNull>
+            <isNotNull prepend="," property="isPush">
+                is_push = #isPush#
+            </isNotNull>
+            <isNotNull prepend="," property="pushTime">
+                push_time = #pushTime#
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+    <!-- GET -->
+    <select id="load" resultMap="itemHouseDO.rm">
+        <include refid="itemHouseDO.selector"/>
+        WHERE id = #id#
+    </select>
+
+    <select id="find" parameterClass="itemHouseDO" resultMap="itemHouseDO.rm">
+        <include refid="itemHouseDO.selector"/>
+        <include refid="itemHouseDO.get_segment"/>
+    </select>
+    <!-- END GET -->
+
+    <!-- END 分页筛选 -->
+
+    <!-- 删除 -->
+    <delete id="delete" parameterClass="long">
+    	update  item_house SET  is_delete = 1 where id = #id#
+    </delete>
+    <!-- END 删除 -->
+
+    <!-- 分页筛选 -->
+    <select id="page_count" resultClass="Integer">
+        <include refid="itemHouseDO.counter"/>
+        <include refid="itemHouseDO.get_segment"/>
+    </select>
+
+    <select id="page" resultClass="Integer" resultMap="itemHouseDO.rm">
+        <include refid="itemHouseDO.selector"/>
+        <include refid="itemHouseDO.get_segment"/>
+        LIMIT #query_page_index#, #query_page_size#;
+    </select>
+    <!-- END 分页筛选 -->
+</sqlMap>
+

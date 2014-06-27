@@ -1,0 +1,116 @@
+#parse("common/header.vm")
+#parse("common/notice.vm")
+
+<!-- 带推送商品列表 -->
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    #parse("common/menu.vm")
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                推送商品
+                <small>从待推送商品列表中推送商品到移动端</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">推送商品</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- top row -->
+            <div class="row">
+                <div class="col-xs-12">
+
+                    #if($!items.size() > 0 )
+                        <div class="col-lg-offset-9" style="margin-bottom: 20px;">
+                            <div class="row">
+                                <form action="/admin/item/pushbufferitem" method="get">
+                                    <div class="col-lg-4" style="margin-top: 5px;">
+                                        <select class="form-control " name="categoryId">
+                                            <option value="1">最新</option>
+                                            <option value="2">精选</option>
+                                            <option value="3">时尚</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn btn-success btn-lg" type="submit">推送列表中商品</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-header">
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th width="70px" style="text-align:center">商品主图</th>
+                                        <th width="120px" style="text-align:center">商品ID</th>
+                                        <th>商品标题</th>
+                                        <th width="80px" style="text-align:center">商品价格</th>
+                                        <th width="220px" style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach($item in $!items)
+                                        <tr>
+                                            <td><a href="$item.getPicUrl()" target="_blank"><img
+                                                    src="$item.getPicUrl()_60x60.jpg"/></a></td>
+                                            <td><a href="http://item.taobao.com/item.htm?id=$!item.getItemId()"
+                                                   target="_blank">$!item.getItemId()</a></td>
+                                            <td>$!item.getTitle()</td>
+                                            <td style="text-align:center">$!item.getPrice()</td>
+                                            <td style="text-align:center">
+                                                <a href="/admin/item/removeitem?id=$!item.getId()&itemHouseId=$!item.getItemHouseId()">
+                                                    <button class="btn btn-danger btn-sm">移除商品</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+
+                                <!-- page bar-->
+                                <div class="col-xs-12">
+                                    <input id="pageIndex" type="hidden" value="${pageIndex}"/>
+                                    <input id="totalPageSize" type="hidden" value="${totalPageSize}"/>
+                                    <input id="pageUrl" type="hidden" value="/admin/item/pushitem?"/>
+
+                                    <div id="pagination"></div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    #else
+                        <div class="col-lg-offset-10" style="margin-bottom: 20px;">
+                            <button class="btn btn-default btn-lg" disabled>推送列表中商品</button>
+                        </div>
+                        <div class="col-lg-offset-4">
+                            <h1 style="color: #999;">暂无待推送商品</h1>
+                        </div>
+                    #end
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+
+        </section>
+        <!-- /.content -->
+    </aside>
+    <!-- /.right-side -->
+</div><!-- ./wrapper -->
+<script type="application/javascript">
+    document.getElementById("push-item").setAttribute("class", "active");
+</script>
+#parse("common/footer.vm")
+

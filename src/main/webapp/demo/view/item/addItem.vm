@@ -1,0 +1,125 @@
+#parse("common/header.vm")
+#parse("common/notice.vm")
+
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    #parse("common/menu.vm")
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                添加商品
+                <small>目前只限集市商品</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">添加商品</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- top row -->
+            <div class="row">
+                <div class="col-xs-6 connectedSortable">
+
+                    <div class="box box-info">
+                        <div class="box-header">
+                        </div>
+                        <div class="box-body" style="height: 136px;">
+                            <div class="row">
+                                <form action="/admin/item/add.do" method="GET">
+                                    <div class="col-lg-10">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-danger">商品ID</button>
+                                            </div>
+                                            <!-- /btn-group -->
+                                            <input name="itemId" type="text" class="form-control"
+                                                   onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+                                                   onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "
+                                                   name="f_order">
+                                        </div>
+                                    </div>
+                                    <!-- /.col-lg-6 -->
+                                    <div class="col-lg-2">
+                                        <button type="submit" class="btn btn-primary">添加</button>
+                                    </div>
+
+                                    <!-- /.col-lg-6 -->
+                                </form>
+                            </div>
+                            <br/>
+
+                            <div class="col-md-6">
+                                #if($!error-msg)
+                                    <div class="alert alert-danger alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                        </button>
+                                        $!error-msg
+                                    </div>
+                                #end
+                                #if($!success-msg)
+                                    <div class="alert alert-success alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                        </button>
+                                        $!success-msg
+                                    </div>
+                                #end
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+                        <!-- /.box-body -->
+
+                    </div>
+
+                </div>
+                <!-- /.col -->
+
+
+                <div class="col-xs-6 connectedSortable">
+
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h5 class="box-title">商品预览</h5>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                #if($!item)
+                                    <div class="col-lg-4">
+                                        <img src="$item.getPic()_210x210.jpg"/>
+                                    </div>
+                                    <div class="col-lg-7 col-lg-offset-1">
+                                        <h5>$!item.getTitle()</h5>
+                                        <p>价格： <font  style="font-size: 24px;font-weight: 700;font-family: Tahoma,Arial,Helvetica,sans-serif;color: #f40;">$!item.getPrice()</font></p>
+                                    </div>
+
+                                    #else
+                                    <div style="height: 74px;"></div>
+                                #end
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+
+
+        </section>
+        <!-- /.content -->
+    </aside>
+    <!-- /.right-side -->
+</div><!-- ./wrapper -->
+<script type="application/javascript">
+    document.getElementById("add-item").setAttribute("class", "active");
+</script>
+#parse("common/footer.vm")
+

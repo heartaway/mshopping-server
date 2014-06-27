@@ -1,0 +1,48 @@
+#parse("common/header.vm")
+#parse("common/notice.vm")
+
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    #parse("common/menu.vm")
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Dashboard
+                <small>Control panel</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- top row -->
+            <div class="row">
+                <div class="col-xs-12 connectedSortable">
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+
+        </section>
+        <!-- /.content -->
+    </aside>
+    <!-- /.right-side -->
+</div><!-- ./wrapper -->
+<script type="application/javascript">
+    document.getElementById("menu-dashboard").setAttribute("class", "active");
+</script>
+#parse("common/footer.vm")
+
+
+
+
+
+
