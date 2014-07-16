@@ -19,7 +19,7 @@
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="com.taobao.mshopping.demo.util.UTF8StringHttpMessageConverter"></bean>
             <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                 <property name="supportedMediaTypes">

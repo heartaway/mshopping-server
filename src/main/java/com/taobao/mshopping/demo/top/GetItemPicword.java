@@ -12,23 +12,24 @@ import com.taobao.api.response.AlibabaTaeDetailPicwordGetResponse;
 /**
  * Created by xinyuan on 14/6/23.
  */
-public class GetItemDetail extends BaseTopClient {
+public class GetItemPicword extends BaseTopClient {
 
     /**
-     * 获取商品详情
+     * 获取商品图文详情
      *
      * @param itemId
      */
-    public static Item getItemDetail(Long itemId) {
-        Item item = null;
+    public static String getItemPicword(Long itemId) {
+        String result = "";
         try {
             TaobaoClient client=new DefaultTaobaoClient(url, appkey, secret);
             AlibabaTaeDetailPicwordGetRequest req=new AlibabaTaeDetailPicwordGetRequest();
             req.setAuctionId(itemId);
             AlibabaTaeDetailPicwordGetResponse response = client.execute(req);
+            result = response.getValue();
         } catch (ApiException e) {
-
+            System.out.printf(e.getErrMsg());
         }
-        return item;
+        return result;
     }
 }

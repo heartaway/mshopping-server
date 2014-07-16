@@ -19,16 +19,17 @@ public class GetBasicItem extends BaseTopClient {
      *
      * @param itemId
      */
-    public static Item getBasicItem(Long itemId) {
-        Item item = null;
+    public static String getBasicItem(Long itemId) {
+        String result = "";
         try {
-            TaobaoClient client=new DefaultTaobaoClient(url, appkey, secret);
-            AlibabaTaeDetailBasicGetRequest req=new AlibabaTaeDetailBasicGetRequest();
+            TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+            AlibabaTaeDetailBasicGetRequest req = new AlibabaTaeDetailBasicGetRequest();
             req.setAuctionId(itemId);
             AlibabaTaeDetailBasicGetResponse response = client.execute(req);
+            result = response.getValue();
         } catch (ApiException e) {
-
+            System.out.println(e.getErrMsg());
         }
-        return item;
+        return result;
     }
 }

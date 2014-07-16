@@ -1,7 +1,6 @@
 package com.taobao.mshopping.demo.control;
 
 import com.alibaba.pt.commons.persistence.page.Page;
-import com.taobao.api.domain.Item;
 import com.taobao.mshopping.demo.constant.MshoppingConstant;
 import com.taobao.mshopping.demo.model.ItemHouseDO;
 import com.taobao.mshopping.demo.model.PushBufferDO;
@@ -12,6 +11,8 @@ import com.taobao.mshopping.demo.persistence.dao.PushBufferDao;
 import com.taobao.mshopping.demo.persistence.dao.PushOptDao;
 import com.taobao.mshopping.demo.persistence.dao.PushedItemDao;
 import com.taobao.mshopping.demo.top.GetBasicItem;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,17 +79,35 @@ public class ItemControl {
             model.addObject("error-msg", "商品ID不能为空");
             return model;
         }
-        Item item = GetBasicItem.getBasicItem(Long.valueOf(itemId));
-        if (item == null) {
-            model.addObject("error-msg", "添加商品失败");
-            return model;
-        }
         ItemHouseDO itemHouseDO = new ItemHouseDO();
-        itemHouseDO.setItemId(item.getNumIid());
-        itemHouseDO.setTitle(item.getTitle());
-        itemHouseDO.setPrice(Double.valueOf(item.getPrice()));
-        itemHouseDO.setIsPush(false);
-        itemHouseDO.setPic(item.getPicUrl());
+        String json = GetBasicItem.getBasicItem(Long.valueOf(itemId));
+        try {
+            JSONObject jsonObject = JSONObject.fromObject(json);
+            String result = jsonObject.getString("ret");
+            if (result == null || !result.contains("SUCCESS")) {
+                model.addObject("error-msg", "添加商品失败");
+                return model;
+            }
+            String dataJson = jsonObject.getString("data");
+            JSONObject dateJsonObject = JSONObject.fromObject(dataJson);
+
+            JSONObject itemInfoObject = dateJsonObject.getJSONObject("itemInfoModel");
+            JSONArray apiStackArray = dateJsonObject.getJSONArray("apiStack");
+            Double price = apiStackArray.getJSONObject(0).getJSONObject("value").getJSONObject("data").getJSONObject("itemInfoModel").getJSONArray("priceUnits").getJSONObject(0).getDouble("price");
+            JSONArray picArray = itemInfoObject.getJSONArray("picsPath");
+            //这里为商品列表页展示数据使用，所以只展示一张图片
+            if (picArray != null && picArray.size() > 0) {
+                itemHouseDO.setPic((String) picArray.get(0));
+            }
+            itemHouseDO.setItemId(itemInfoObject.getLong("itemId"));
+            itemHouseDO.setTitle(itemInfoObject.getString("title"));
+            itemHouseDO.setPrice(price);
+            itemHouseDO.setIsPush(false);
+        } catch (Exception e) {
+
+        }
+
+
         Long id = itemHouseDao.create(itemHouseDO);
         if (id <= 0) {
             model.addObject("error-msg", "添加商品失败");
@@ -257,6 +276,5 @@ public class ItemControl {
         model.addObject("history", history);
         return model;
     }
-
 
 }

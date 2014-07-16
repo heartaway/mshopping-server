@@ -4,6 +4,7 @@ import com.alibaba.pt.commons.persistence.page.Page;
 import com.taobao.mshopping.demo.constant.MshoppingConstant;
 import com.taobao.mshopping.demo.model.PushedItemDO;
 import com.taobao.mshopping.demo.persistence.dao.PushedItemDao;
+import com.taobao.mshopping.demo.top.GetBasicItem;
 import com.taobao.mshopping.demo.util.JsonDateValueProcessor;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/api")
-public class GetItemList {
+public class ItemListApi {
 
     @Resource
     PushedItemDao pushedItemDao;
@@ -66,6 +67,7 @@ public class GetItemList {
         return json.toString();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/itemlist/new/{categoryId}", method = RequestMethod.GET, produces = "text/plain;charset=utf-8")
     public String getNewItemViewTimeIsNull(@PathVariable Integer categoryId) {
         PushedItemDO pushedItemDO = new PushedItemDO();
