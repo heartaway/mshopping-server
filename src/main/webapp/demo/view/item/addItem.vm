@@ -10,7 +10,7 @@
         <section class="content-header">
             <h1>
                 添加商品
-                <small>目前只限集市商品</small>
+                <small>可以添加淘宝和天猫的所有商品</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

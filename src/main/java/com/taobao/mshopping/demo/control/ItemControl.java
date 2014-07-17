@@ -88,12 +88,11 @@ public class ItemControl {
                 model.addObject("error-msg", "添加商品失败");
                 return model;
             }
-            String dataJson = jsonObject.getString("data");
-            JSONObject dateJsonObject = JSONObject.fromObject(dataJson);
+            JSONObject dateJsonObject = jsonObject.getJSONObject("data");
 
             JSONObject itemInfoObject = dateJsonObject.getJSONObject("itemInfoModel");
             JSONArray apiStackArray = dateJsonObject.getJSONArray("apiStack");
-            Double price = apiStackArray.getJSONObject(0).getJSONObject("value").getJSONObject("data").getJSONObject("itemInfoModel").getJSONArray("priceUnits").getJSONObject(0).getDouble("price");
+            String price = apiStackArray.getJSONObject(0).getJSONObject("value").getJSONObject("data").getJSONObject("itemInfoModel").getJSONArray("priceUnits").getJSONObject(0).getString("price");
             JSONArray picArray = itemInfoObject.getJSONArray("picsPath");
             //这里为商品列表页展示数据使用，所以只展示一张图片
             if (picArray != null && picArray.size() > 0) {
@@ -101,7 +100,7 @@ public class ItemControl {
             }
             itemHouseDO.setItemId(itemInfoObject.getLong("itemId"));
             itemHouseDO.setTitle(itemInfoObject.getString("title"));
-            itemHouseDO.setPrice(price);
+            itemHouseDO.setPrice(Double.valueOf(price));
             itemHouseDO.setIsPush(false);
         } catch (Exception e) {
 
