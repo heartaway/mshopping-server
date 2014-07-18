@@ -1,6 +1,2 @@
-´ËÓ¦ÓÃÎªJAE ¿ª·Å¸øISVÊ¹ÓÃµÄDemo½Ì³Ì¡£
-
-±¸×¢£º
-1. Ó¦ÓÃÖÐÊ¹ÓÃµÄ¶àËµ×é¼þ£º
-   Î¢²©ÕËºÅµÇÂ¼£¨jaedemo@126.com/taobao1234£©http://duoshuo.com
-2. Æ¤·ô²ÉÓÃµÄÊÇ»ùÓÚbootstrapµÄÄ£°æÎÄ¼þ£ºAdminLTE
+TAE æ— çº¿Demo æœåŠ¡ç«¯
+==============
