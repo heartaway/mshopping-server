@@ -223,6 +223,9 @@ public class ItemControl {
     public ModelAndView pushBufferItemToClient(Integer categoryId) {
         PushBufferDO pushBufferDO = new PushBufferDO();
         List<PushBufferDO> pushBufferDOs = pushBufferDao.find(pushBufferDO);
+        if(pushBufferDOs == null || pushBufferDOs.size()==0){
+            return getPushItem();
+        }
         //创建推送记录
         Date now = new Date();
         PushOptDO pushOptDO = new PushOptDO();
