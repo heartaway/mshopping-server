@@ -2,11 +2,9 @@ package com.taobao.mshopping.demo.openapi;
 
 import com.taobao.mshopping.demo.top.GetBasicItem;
 import com.taobao.mshopping.demo.top.GetItemPicword;
+import com.taobao.mshopping.demo.util.SecurityKey;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by xinyuan on 14/7/5.
@@ -21,9 +19,13 @@ public class ItemPicwordApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/item/picwordinfo/{itemId}", method = RequestMethod.GET, produces = "text/plain;charset=utf-8")
-    public String getRichItemInfromation(@PathVariable Long itemId) {
-        return GetItemPicword.getItemPicword(itemId);
+    @RequestMapping(value = "/item/picwordinfo/{itemId}", method = RequestMethod.POST)
+    public String getRichItemInfromation(@PathVariable Long itemId,@RequestParam("securityKey")String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            return GetItemPicword.getItemPicword(itemId);
+        }else {
+            return "";
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.taobao.mshopping.demo.openapi;
 
 import com.taobao.mshopping.demo.top.GetUpdateOrder;
+import com.taobao.mshopping.demo.util.SecurityKey;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,15 +18,12 @@ public class UpdateOrderApi {
 
     @ResponseBody
     @RequestMapping(value = "/order/updateorder", method = RequestMethod.POST)
-    public String getUpdateOrderByPost(@RequestParam("sessionKey") String sessionKey, @RequestParam("updateJson") String updateJson) {
-        return GetUpdateOrder.getUpdateOrderResp(sessionKey, updateJson);
-    }
-
-
-    @ResponseBody
-    @RequestMapping(value = "/order/updateorder/get", method = RequestMethod.GET)
-    public String getUpdateOrderByGet(@RequestParam("sessionKey") String sessionKey, @RequestParam("updateJson") String updateJson) {
-        return GetUpdateOrder.getUpdateOrderResp(sessionKey, updateJson);
+    public String getUpdateOrderByPost(@RequestParam("sessionKey") String sessionKey, @RequestParam("updateJson") String updateJson, @RequestParam("securityKey") String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            return GetUpdateOrder.getUpdateOrderResp(sessionKey, updateJson);
+        } else {
+            return "";
+        }
     }
 
 

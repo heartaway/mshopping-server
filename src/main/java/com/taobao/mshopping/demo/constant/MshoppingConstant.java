@@ -5,6 +5,8 @@ package com.taobao.mshopping.demo.constant;
  */
 public class MshoppingConstant {
 
+    public static final String signature = "";
+
     public static final Integer SIZE_PER_PAGE = 20;
 
     public static final String OFFICIAL_URL = "http://gw.api.taobao.com/router/rest";

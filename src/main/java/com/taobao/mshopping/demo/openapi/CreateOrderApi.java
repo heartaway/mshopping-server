@@ -1,7 +1,10 @@
 package com.taobao.mshopping.demo.openapi;
 
+import com.taobao.mshopping.demo.constant.MshoppingConstant;
+import com.taobao.mshopping.demo.top.GetBuildOrder;
 import com.taobao.mshopping.demo.top.GetCreateOrder;
 import com.taobao.mshopping.demo.top.GetUpdateOrder;
+import com.taobao.mshopping.demo.util.SecurityKey;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,15 +21,12 @@ public class CreateOrderApi {
 
     @ResponseBody
     @RequestMapping(value = "/order/createorder", method = RequestMethod.POST)
-    public String getCreateOrderByPost(@RequestParam("sessionKey") String sessionKey, @RequestParam("submitJson") String submitJson) {
-        return GetCreateOrder.getCreateOrderResp(sessionKey, submitJson);
-    }
-
-
-    @ResponseBody
-    @RequestMapping(value = "/order/createorder/get", method = RequestMethod.GET)
-    public String getCreateOrderByGet(@RequestParam("sessionKey") String sessionKey, @RequestParam("submitJson") String submitJson) {
-        return GetCreateOrder.getCreateOrderResp(sessionKey, submitJson);
+    public String getCreateOrderByPost(@RequestParam("sessionKey") String sessionKey, @RequestParam("submitJson") String submitJson,@RequestParam("securityKey")String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            return GetCreateOrder.getCreateOrderResp(sessionKey, submitJson);
+        }else{
+            return "";
+        }
     }
 
 

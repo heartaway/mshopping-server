@@ -6,6 +6,7 @@ import com.taobao.mshopping.demo.model.PushedItemDO;
 import com.taobao.mshopping.demo.persistence.dao.PushedItemDao;
 import com.taobao.mshopping.demo.top.GetBasicItem;
 import com.taobao.mshopping.demo.util.JsonDateValueProcessor;
+import com.taobao.mshopping.demo.util.SecurityKey;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 import org.springframework.stereotype.Controller;
@@ -33,15 +34,19 @@ public class ItemListApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}", method = RequestMethod.GET, produces = "text/plain;charset=utf-8")
-    public String viewMoreItemView(@PathVariable Integer categoryId, @PathVariable Integer pageIndex) {
-        PushedItemDO pushedItemDO = new PushedItemDO();
-        pushedItemDO.setCategoryId(categoryId);
-        Page<PushedItemDO> pushedItemDOPage = pushedItemDao.page("page", pushedItemDO, pageIndex * MshoppingConstant.SIZE_PER_PAGE);
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
-        JSONArray json = JSONArray.fromObject(pushedItemDOPage.getDatas(), jsonConfig);
-        return json.toString();
+    @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}", method = RequestMethod.POST)
+    public String viewMoreItemView(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            PushedItemDO pushedItemDO = new PushedItemDO();
+            pushedItemDO.setCategoryId(categoryId);
+            Page<PushedItemDO> pushedItemDOPage = pushedItemDao.page("page", pushedItemDO, pageIndex * MshoppingConstant.SIZE_PER_PAGE);
+            JsonConfig jsonConfig = new JsonConfig();
+            jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+            JSONArray json = JSONArray.fromObject(pushedItemDOPage.getDatas(), jsonConfig);
+            return json.toString();
+        }else{
+            return "";
+        }
     }
 
     /**
@@ -50,34 +55,42 @@ public class ItemListApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/itemlist/new/{categoryId}/{time}", method = RequestMethod.GET, produces = "text/plain;charset=utf-8")
-    public String getNewItemView(@PathVariable Integer categoryId, @PathVariable Long time) {
-        PushedItemDO pushedItemDO = new PushedItemDO();
-        pushedItemDO.setCategoryId(categoryId);
-        List<PushedItemDO> pushedItemDOs;
-        if (time == 0L) {
-            pushedItemDOs = pushedItemDao.page("page", pushedItemDO, 0).getDatas();
-        } else {
-            pushedItemDO.setPushTime(new Date(time));
-            pushedItemDOs = pushedItemDao.find("findItemsBeyondDate", pushedItemDO);
+    @RequestMapping(value = "/itemlist/new/{categoryId}/{time}", method = RequestMethod.POST)
+    public String getNewItemView(@PathVariable Integer categoryId, @PathVariable Long time,@RequestParam("securityKey")String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            PushedItemDO pushedItemDO = new PushedItemDO();
+            pushedItemDO.setCategoryId(categoryId);
+            List<PushedItemDO> pushedItemDOs;
+            if (time == 0L) {
+                pushedItemDOs = pushedItemDao.page("page", pushedItemDO, 0).getDatas();
+            } else {
+                pushedItemDO.setPushTime(new Date(time));
+                pushedItemDOs = pushedItemDao.find("findItemsBeyondDate", pushedItemDO);
+            }
+            JsonConfig jsonConfig = new JsonConfig();
+            jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+            JSONArray json = JSONArray.fromObject(pushedItemDOs, jsonConfig);
+            return json.toString();
+        }else{
+            return "";
         }
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
-        JSONArray json = JSONArray.fromObject(pushedItemDOs, jsonConfig);
-        return json.toString();
     }
 
     @ResponseBody
-    @RequestMapping(value = "/itemlist/new/{categoryId}", method = RequestMethod.GET, produces = "text/plain;charset=utf-8")
-    public String getNewItemViewTimeIsNull(@PathVariable Integer categoryId) {
-        PushedItemDO pushedItemDO = new PushedItemDO();
-        pushedItemDO.setCategoryId(categoryId);
-        List<PushedItemDO> pushedItemDOs;
-        pushedItemDOs = pushedItemDao.page("page", pushedItemDO, 0).getDatas();
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
-        JSONArray json = JSONArray.fromObject(pushedItemDOs, jsonConfig);
-        return json.toString();
+    @RequestMapping(value = "/itemlist/new/{categoryId}", method = RequestMethod.POST)
+    public String getNewItemViewTimeIsNull(@PathVariable Integer categoryId,@RequestParam("securityKey")String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            PushedItemDO pushedItemDO = new PushedItemDO();
+            pushedItemDO.setCategoryId(categoryId);
+            List<PushedItemDO> pushedItemDOs;
+            pushedItemDOs = pushedItemDao.page("page", pushedItemDO, 0).getDatas();
+            JsonConfig jsonConfig = new JsonConfig();
+            jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+            JSONArray json = JSONArray.fromObject(pushedItemDOs, jsonConfig);
+            return json.toString();
+        }else{
+            return "";
+        }
     }
 
 }

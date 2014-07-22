@@ -1,11 +1,10 @@
 package com.taobao.mshopping.demo.openapi;
 
+import com.taobao.mshopping.demo.constant.MshoppingConstant;
 import com.taobao.mshopping.demo.top.GetBasicItem;
+import com.taobao.mshopping.demo.util.SecurityKey;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by xinyuan on 14/7/5.
@@ -20,9 +19,14 @@ public class BasicItemApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/item/basicinfo/{itemId}", method = RequestMethod.GET,produces = "text/plain;charset=utf-8")
-    public String getBasicItemInfromation(@PathVariable Long itemId) {
-        return GetBasicItem.getBasicItem(itemId);
+    @RequestMapping(value = "/item/basicinfo/{itemId}", method = RequestMethod.POST)
+    public String getBasicItemInfromation(@PathVariable Long itemId, @RequestParam("securityKey") String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            return GetBasicItem.getBasicItem(itemId);
+        } else {
+            return "";
+        }
+
     }
 
 }
