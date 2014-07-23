@@ -1,2 +1,5 @@
 !!com.taobao.tae.config.domain.Config
 title: taedemo
+
+security:
+- {url: /admin/,role: developer }
