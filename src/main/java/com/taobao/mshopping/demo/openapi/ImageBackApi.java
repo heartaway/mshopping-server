@@ -1,17 +1,26 @@
 package com.taobao.mshopping.demo.openapi;
 
 import com.alibaba.appengine.server.service.pic.Pic;
-import com.alibaba.appengine.server.service.pic.PicService;
 import com.alibaba.appengine.server.service.pic.PicServiceFactory;
 import com.alibaba.appengine.server.service.pic.Response;
+import com.taobao.mshopping.demo.util.ResultUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -144,5 +153,75 @@ public class ImageBackApi {
         module.put("children", children);
 
         return ret;
+    }
+
+
+    private static String getPatternName(String fileName) {
+        if (StringUtils.isBlank(fileName)) {
+            return null;
+        } else {
+            int index = fileName.lastIndexOf(".");
+            if (index == -1) {
+                return null;
+            }
+            String pattern = fileName.substring(index + 1, fileName.length());
+            return pattern;
+        }
+    }
+
+    private static boolean checkImg(String imgSuffix) {
+        if (imgSuffix == null) {
+            return false;
+        }
+        if ("jpg".equalsIgnoreCase(imgSuffix)
+                || "jpeg".equalsIgnoreCase(imgSuffix)
+                || "bmp".equalsIgnoreCase(imgSuffix)
+                || "gif".equalsIgnoreCase(imgSuffix)
+                || "png".equalsIgnoreCase(imgSuffix)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        assert "123".equals(getPatternName("asdasd.123"));
+        assert null == getPatternName("asdasd");
+        assert "456".equals(getPatternName("asdasd.123.456"));
+        assert null == getPatternName("");
+    }
+
+    @RequestMapping(value = "/image/upload")
+    @ResponseBody
+    public Object uploadWithOutCheck(HttpServletRequest req
+            , @RequestParam("files") MultipartFile[] myfiles
+            , @RequestParam(value = "path", required = false) String path) throws IOException, ServletException {
+
+        if (myfiles != null) {
+            Map<String, String> urls = new HashMap<String, String>();
+            for (MultipartFile file : myfiles) {
+                BufferedImage image = ImageIO.read(file.getInputStream());
+                if (image != null) {
+                    String fileName = file.getOriginalFilename();
+
+                    String pattern = getPatternName(fileName);
+                    if (!checkImg(pattern)) {
+                        return ResultUtil.genFailedResult("图片后缀名错误");
+                    }
+
+                    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+                    ImageIO.write(image, pattern, byteOut);
+                    byte[] bytes = byteOut.toByteArray();
+                    PicServiceFactory.getPicService().deletePic(path, fileName);
+                    Response<Pic> response = PicServiceFactory.getPicService().savePic(path, fileName, bytes);
+                    if (response.isSuccess()) {
+                        urls.put(fileName, response.getResult().fullUrl);
+                    } else {
+                        return ResultUtil.genFailedResult(response.getErrorMsg());
+                    }
+                }
+                return ResultUtil.genSuccessResult(urls);
+            }
+        }
+        return ResultUtil.genFailedResult("图片未上传或者格式错误");
     }
 }
