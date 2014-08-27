@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UpdateOrderApi {
 
     @ResponseBody
-    @RequestMapping(value = "/order/updateorder", method = RequestMethod.POST)
+    @RequestMapping(value = "/order/updateorder")
     public String getUpdateOrderByPost(@RequestParam("sessionKey") String sessionKey, @RequestParam("updateJson") String updateJson, @RequestParam("securityKey") String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             return GetUpdateOrder.getUpdateOrderResp(sessionKey, updateJson);

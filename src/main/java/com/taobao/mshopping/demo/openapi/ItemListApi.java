@@ -34,7 +34,7 @@ public class ItemListApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}", method = RequestMethod.POST)
+    @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}")
     public String viewMoreItemView(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();
@@ -55,7 +55,7 @@ public class ItemListApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/itemlist/new/{categoryId}/{time}", method = RequestMethod.POST)
+    @RequestMapping(value = "/itemlist/new/{categoryId}/{time}")
     public String getNewItemView(@PathVariable Integer categoryId, @PathVariable Long time,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();
@@ -77,7 +77,7 @@ public class ItemListApi {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/itemlist/new/{categoryId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/itemlist/new/{categoryId}")
     public String getNewItemViewTimeIsNull(@PathVariable Integer categoryId,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();

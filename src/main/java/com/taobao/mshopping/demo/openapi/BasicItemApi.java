@@ -19,7 +19,7 @@ public class BasicItemApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/item/basicinfo/{itemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/item/basicinfo/{itemId}")
     public String getBasicItemInfromation(@PathVariable Long itemId, @RequestParam("securityKey") String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             return GetBasicItem.getBasicItem(itemId);

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PayOrderApi {
 
     @ResponseBody
-    @RequestMapping(value = "/order/getpayurl", method = RequestMethod.POST)
+    @RequestMapping(value = "/order/getpayurl")
     public String getCreateOrderByPost(@RequestParam("tradeNos") String tradeNos, @RequestParam("returnUrl") String returnUrl, @RequestParam("securityKey") String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             return GetPayOrder.getPayOrderResp(tradeNos, returnUrl);

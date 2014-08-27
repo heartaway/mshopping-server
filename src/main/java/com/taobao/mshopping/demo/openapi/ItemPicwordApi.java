@@ -19,7 +19,7 @@ public class ItemPicwordApi {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/item/picwordinfo/{itemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/item/picwordinfo/{itemId}")
     public String getRichItemInfromation(@PathVariable Long itemId,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             return GetItemPicword.getItemPicword(itemId);

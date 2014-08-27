@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class BuildOrderApi {
 
     @ResponseBody
-    @RequestMapping(value = "/order/buildorder", method = RequestMethod.POST)
+    @RequestMapping(value = "/order/buildorder")
     public String getBuildOrderByPost(@RequestParam("sessionKey")String sessionKey, @RequestParam("itemsJson")String itemsJson,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             return GetBuildOrder.getBuildOrderResp(sessionKey, itemsJson);

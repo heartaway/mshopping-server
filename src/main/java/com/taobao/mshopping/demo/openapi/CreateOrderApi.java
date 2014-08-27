@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CreateOrderApi {
 
     @ResponseBody
-    @RequestMapping(value = "/order/createorder", method = RequestMethod.POST)
+    @RequestMapping(value = "/order/createorder")
     public String getCreateOrderByPost(@RequestParam("sessionKey") String sessionKey, @RequestParam("submitJson") String submitJson,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             return GetCreateOrder.getCreateOrderResp(sessionKey, submitJson);
