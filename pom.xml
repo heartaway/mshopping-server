@@ -225,7 +225,7 @@
         <dependency>
             <groupId>com.alibaba.appengine</groupId>
             <artifactId>services-jae-api</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>1.0.7-SNAPSHOT</version>
         </dependency>
 
         <!--<dependency>-->
@@ -241,7 +241,7 @@
 
         <finalName>web</finalName>
         <filters>
-            <filter>../antx.properties</filter>
+            <filter>antx.properties</filter>
         </filters>
         <resources>
             <resource>
