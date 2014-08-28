@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+<project name="taedemo" default="startTomcat" basedir=".">
+    <description>
+        ant script for demo
+    </description>
+    <target name="delete" description="copy war to jae tomcat">
+        <echo>copy war to jae tomcat</echo>
+        <delete file="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps/taedemo.war"/>
+        <delete dir="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps/taedemo"/>
+        <delete file="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps/ROOT.war"/>
+        <delete dir="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps/ROOT"/>
+
+    </target>
+    <target name="copy" description="copy war to jae tomcat" depends="delete">
+        <echo>copy war to jae tomcat</echo>
+        <copy file="/Users/huamulou/work/gits/mshopping-server/target/web.war" todir="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps"/>
+        <rename src="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps/web.war" dest="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/webapps/ROOT.war"/>
+    </target>
+
+    <target name="startTomcat" description="start jae tomcat" depends="copy">
+        <echo>start tomcat</echo>
+        <exec executable="/Users/huamulou/work/tools/jaesdkenv4linux/jaesdk/jst-dev/bin/startup.sh">
+        </exec>
+
+    </target>
+</project>
