@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="PROJECT" class="${taedemo.LogAppender}">
+        <param name="file" value="${catalina.base}/logs/app.log"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="append" value="false"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] - [%t] %X{method}  %5p %c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+
+
+
+
+    <logger name="com.ibatis" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="com.ibatis.common.jdbc.SqlMapClientDelegate" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="java.sql.Connection" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="java.sql.Statement" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <logger name="java.sql.ResultSet" additivity="false">
+        <level value="${taedemo.sql.log.level}"/>
+        <appender-ref ref="PROJECT"/>
+    </logger>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="PROJECT"/>
+    </root>
+
+
+</log4j:configuration>
