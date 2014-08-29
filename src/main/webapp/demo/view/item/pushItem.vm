@@ -35,6 +35,7 @@
                                             <option value="1">最新</option>
                                             <option value="2">精选</option>
                                             <option value="3">时尚</option>
+                                            <option value="4">本地生活</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">

@@ -239,6 +239,8 @@ public class ItemControl {
             pushedItemDO.setPicUrl(pushBufferDOs.get(i).getPicUrl());
             pushedItemDO.setPrice(pushBufferDOs.get(i).getPrice());
             pushedItemDO.setTitle(pushBufferDOs.get(i).getTitle());
+
+
             pushedItemDO.setCategoryId(categoryId);
             pushedItemDO.setItemHouseId(pushBufferDOs.get(i).getItemHouseId());
             pushedItemDO.setItemId(pushBufferDOs.get(i).getItemId());

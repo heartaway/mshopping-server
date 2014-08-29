@@ -1,8 +1,8 @@
 package com.taobao.mshopping.demo.persistence;
 
-import com.alibaba.demo.model.AppConfig;
+import com.taobao.mshopping.demo.model.AppConfig;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.FactoryBean;
 
 import javax.annotation.Resource;
@@ -17,7 +17,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DataSourceFactory implements FactoryBean<DataSource> {
 
 
-    private boolean isLocal = false;
 
     private DataSource dataSource;
 
@@ -31,9 +30,6 @@ public class DataSourceFactory implements FactoryBean<DataSource> {
         this.appConfig = appConfig;
     }
 
-    public void setLocal(boolean isLocal) {
-        this.isLocal = isLocal;
-    }
 
     @Override
     public DataSource getObject() throws Exception {
@@ -43,7 +39,7 @@ public class DataSourceFactory implements FactoryBean<DataSource> {
             lock.lock();
             try {
                 if (dataSource == null) {
-                    if (isLocal) {
+                    if (appConfig.isLocal()) {
                         LocalDbConfig localDbConfig = LocalDbConfig.getInstance();
                         BasicDataSource basicDataSource = new BasicDataSource();
                         basicDataSource.setDriverClassName("org.gjt.mm.mysql.Driver");

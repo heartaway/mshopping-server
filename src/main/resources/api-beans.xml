@@ -7,20 +7,10 @@
         		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
        default-autowire="byName">
 
-    <bean id="appConfig" class="com.alibaba.demo.model.AppConfig">
-        <property name="appKey" value="${appKey}"/>
-        <property name="appSecret" value="${appSecret}"/>
-        <property name="envValue" value="${env}"/>
+    <bean id="appConfig" class="com.taobao.mshopping.demo.model.AppConfig">
         <property name="local" value="${isLocal}"/>
-        <property name="owner" value="${owner}"/>
-        <property name="oauth" value="${isOauth}"/>
-        <property name="contextName" value="${contextName}"/>
-
         <property name="dataSourceAlias" value="${dataSourceAlias}"/>
     </bean>
 
 
-    <context:component-scan base-package="com.alibaba.demo.api"/>
-
-    <import resource="task.xml"/>
 </beans>

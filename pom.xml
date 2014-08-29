@@ -176,7 +176,7 @@
         <dependency>
             <groupId>com.alibaba.appengine</groupId>
             <artifactId>services-jae-api</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>1.0.7-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -249,7 +249,31 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${warExplodedDirectory}/WEB-INF/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -279,5 +303,15 @@
 
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <filters>
+                    <filter>antx.properties.dev</filter>
+                </filters>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

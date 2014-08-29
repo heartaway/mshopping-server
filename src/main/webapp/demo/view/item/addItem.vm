@@ -41,6 +41,9 @@
                                                    onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
                                                    onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "
                                                    name="f_order">
+
+
+
                                         </div>
                                     </div>
                                     <!-- /.col-lg-6 -->
@@ -95,10 +98,13 @@
                                     </div>
                                     <div class="col-lg-7 col-lg-offset-1">
                                         <h5>$!item.getTitle()</h5>
-                                        <p>价格： <font  style="font-size: 24px;font-weight: 700;font-family: Tahoma,Arial,Helvetica,sans-serif;color: #f40;">$!item.getPrice()</font></p>
+
+                                        <p>价格： <font
+                                                style="font-size: 24px;font-weight: 700;font-family: Tahoma,Arial,Helvetica,sans-serif;color: #f40;">$!item.getPrice()</font>
+                                        </p>
                                     </div>
 
-                                    #else
+                                #else
                                     <div style="height: 74px;"></div>
                                 #end
                             </div>

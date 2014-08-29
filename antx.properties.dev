@@ -1,3 +1,6 @@
 taedemo.sql.log.level=info
-
+taedemo.template.path=file:/Users/huamulou/work/gits/mshopping-server/src/main/webapp/demo/view
 taedemo.LogAppender=com.alibaba.appengine.api.log.appender.LogAppender
+taedemo.placeholder.file.name=placeholders.local.properties
+dataSourceAlias=
+catalina.base=/Users/huamulou/logs/mshopping

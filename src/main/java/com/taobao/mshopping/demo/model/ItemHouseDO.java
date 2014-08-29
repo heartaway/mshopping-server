@@ -24,6 +24,8 @@ public class ItemHouseDO {
     private Date gmtCreate;
     private Date gmtModified;
 
+    private Integer type;
+
 
     public Long getId() {
         return id;
@@ -95,5 +97,14 @@ public class ItemHouseDO {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getType() {
+        return type;
     }
 }

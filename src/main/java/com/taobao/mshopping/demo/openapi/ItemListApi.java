@@ -49,6 +49,24 @@ public class ItemListApi {
         }
     }
 
+
+
+    @ResponseBody
+    @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}/{type}")
+    public String viewMoreItemViewWithType(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
+        if (SecurityKey.getKey().equals(securityKey)) {
+            PushedItemDO pushedItemDO = new PushedItemDO();
+            pushedItemDO.setCategoryId(categoryId);
+            Page<PushedItemDO> pushedItemDOPage = pushedItemDao.page("page", pushedItemDO, pageIndex * MshoppingConstant.SIZE_PER_PAGE);
+            JsonConfig jsonConfig = new JsonConfig();
+            jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+            JSONArray json = JSONArray.fromObject(pushedItemDOPage.getDatas(), jsonConfig);
+            return json.toString();
+        }else{
+            return "";
+        }
+    }
+
     /**
      * 获取新商品
      *
