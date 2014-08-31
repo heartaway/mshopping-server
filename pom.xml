@@ -17,6 +17,7 @@
     </description>
 
     <properties>
+        <slf4j.version>1.6.1</slf4j.version>
         <java.version>1.6</java.version>
         <warExplodedDirectory>target/exploded/mshopping.war</warExplodedDirectory>
         <!-- 请设置成你的项目的地址 -->
@@ -195,13 +196,18 @@
         <!--for log-->
         <dependency>
             <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>

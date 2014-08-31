@@ -35,7 +35,7 @@ public class ItemListApi {
      */
     @ResponseBody
     @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}")
-    public String viewMoreItemView(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
+    public Object viewMoreItemView(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();
             pushedItemDO.setCategoryId(categoryId);
@@ -43,7 +43,7 @@ public class ItemListApi {
             JsonConfig jsonConfig = new JsonConfig();
             jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
             JSONArray json = JSONArray.fromObject(pushedItemDOPage.getDatas(), jsonConfig);
-            return json.toString();
+            return json;
         }else{
             return "";
         }
@@ -53,7 +53,7 @@ public class ItemListApi {
 
     @ResponseBody
     @RequestMapping(value = "/itemlist/more/{categoryId}/{pageIndex}/{type}")
-    public String viewMoreItemViewWithType(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
+    public Object viewMoreItemViewWithType(@PathVariable Integer categoryId, @PathVariable Integer pageIndex,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();
             pushedItemDO.setCategoryId(categoryId);
@@ -74,7 +74,7 @@ public class ItemListApi {
      */
     @ResponseBody
     @RequestMapping(value = "/itemlist/new/{categoryId}/{time}")
-    public String getNewItemView(@PathVariable Integer categoryId, @PathVariable Long time,@RequestParam("securityKey")String securityKey) {
+    public Object getNewItemView(@PathVariable Integer categoryId, @PathVariable Long time,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();
             pushedItemDO.setCategoryId(categoryId);
@@ -88,7 +88,7 @@ public class ItemListApi {
             JsonConfig jsonConfig = new JsonConfig();
             jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
             JSONArray json = JSONArray.fromObject(pushedItemDOs, jsonConfig);
-            return json.toString();
+            return json;
         }else{
             return "";
         }
@@ -96,7 +96,7 @@ public class ItemListApi {
 
     @ResponseBody
     @RequestMapping(value = "/itemlist/new/{categoryId}")
-    public String getNewItemViewTimeIsNull(@PathVariable Integer categoryId,@RequestParam("securityKey")String securityKey) {
+    public Object getNewItemViewTimeIsNull(@PathVariable Integer categoryId,@RequestParam("securityKey")String securityKey) {
         if (SecurityKey.getKey().equals(securityKey)) {
             PushedItemDO pushedItemDO = new PushedItemDO();
             pushedItemDO.setCategoryId(categoryId);
@@ -105,7 +105,7 @@ public class ItemListApi {
             JsonConfig jsonConfig = new JsonConfig();
             jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
             JSONArray json = JSONArray.fromObject(pushedItemDOs, jsonConfig);
-            return json.toString();
+            return json;
         }else{
             return "";
         }
